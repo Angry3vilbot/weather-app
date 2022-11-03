@@ -38,16 +38,40 @@ function loadWeatherIntoDOM(){
     const weather = mainCard.querySelector('div').querySelector('#weather')
     const temp = mainCard.querySelector('div').querySelector('#temperature-now')
     const time = mainCard.querySelector('div').querySelector('p')
+    const image = mainCard.querySelector('img')
 
     let temperatureArray = getTemperature()
     temp.innerHTML = `The temperature is ${temperatureArray[0]}°C`
     weather.innerHTML = weatherArray[0].weather[0].main
     time.innerHTML = weatherArray[0].dt_txt
+    switch(weatherArray[0].weather[0].main){
+        case 'Clouds':
+            image.src = 'cloudy.svg'
+            break
+        case 'Rain':
+            image.src = 'rain.svg'
+            break
+        case 'Clear':
+            image.src = 'sunny.svg'
+            break
+    }
 
     for(let i = 1; i < weatherArray.length; i++){
         secondaryCards[i-1].querySelector('h2').innerHTML = weatherArray[i].dt_txt.slice(11, 16)
         secondaryCards[i-1].querySelector('p').innerHTML = `${temperatureArray[i]}°C`
+        switch(weatherArray[i].weather[0].main){
+            case 'Clouds':
+                secondaryCards[i-1].querySelector('img').src = 'cloudy.svg'
+                break
+            case 'Rain':
+                secondaryCards[i-1].querySelector('img').src = 'rain.svg'
+                break
+            case 'Clear':
+                secondaryCards[i-1].querySelector('img').src = 'sunny.svg'
+                break
+        }
     }
 }
 
 searchBtn.addEventListener('click', getWeatherData)
+getWeatherData('Melitopol')
